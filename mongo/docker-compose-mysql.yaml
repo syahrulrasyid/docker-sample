@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+
+  mysql-testing:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rahasia123
+      MYSQL_DATABASE: some_test
+    ports:
+      - "4051:3306"

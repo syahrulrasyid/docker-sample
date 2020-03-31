@@ -1,0 +1,15 @@
+version: '3'
+
+services: 
+  database:
+    image: mongo
+    container_name: 'mongo-testing'
+    environment: 
+      - MONGO_INITDB_DATABASE=online-news-trace
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=rahasia123
+    volumes: 
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+      - ./mongo-volume:/data/db
+    ports: 
+      - '27017-27019:27017-27019'

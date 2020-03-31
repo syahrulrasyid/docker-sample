@@ -1,0 +1,38 @@
+version: '3'
+services:
+  elastic01:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.6.0
+    container_name: elastic01
+    environment:
+      - node.name=elastic01
+      - cluster.name=es-docker-cluster-single
+      - discovery.seed_hosts=elastic01
+      - cluster.initial_master_nodes=elastic01
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"  
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - es-data01:/usr/share/elasticsearch/data
+    ports:
+      - 9205:9200
+      - 9305:9300
+    networks:
+      - elastic-single
+  kibana-single:
+    image: docker.elastic.co/kibana/kibana:7.6.0
+    container_name: kibana-single
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elastic01:9200
+    ports: 
+      - 5601:5601
+    networks: 
+      - elastic-single
+volumes:
+  es-data01:
+    driver: local
+networks:
+  elastic-single:
+    driver: bridge
